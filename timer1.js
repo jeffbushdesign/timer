@@ -1,10 +1,54 @@
+const timer = function () {
+  // get only the 3rd and onwards array items: 0,1 are not used
+  const args = process.argv.slice(2);
+
+  // check if no inputs have been passed
+  if (args.length < 1) {
+    console.log('Error: Timer cannot be created because no inputs were given.');
+    return;
+  }
+
+  // loop through args array which contains all the input values
+  // (CLI inputs are automatically converted to strings)
+  for (const item of args) {
+    // turn each of the items into a number
+    // if the item isn't a number it will be turned into NaN
+    // NaN is a falsey value, this is important in the next step
+    let num = Number(item);
+
+    // if num is true
+    if (num) {
+      // check for negative numbers
+      if (item < 0) {
+        // skip negative numbers
+        continue;
+      } else {
+        setTimeout(() => {
+          console.log(`${item} second timer says: BEEP!`);
+        }, item * 1000);
+        // item is the input time
+        // item * 1000 converts the time into seconds 
+        // (since time in js is in ms)
+      }
+    } else {
+      // non numbers will be turned in NaN by the Number() function.
+      // NaN is false
+      // so this is saying 'if it's not a number, then just continue'
+      continue;
+    }
+  }
+};
+
+// Call the function
+timer();
+
 /*
 Challenge
 Implement an alarm clock / timer which will beep after a specified amount of time has passed. The user can specify an unlimited number of alarms using command line arguments
 
 Example usage:
 
-node timer1.js 10 3 5 15 9 
+node timer1.js 10 3 5 15 9
 This will make it beep at:
 
 3 seconds
@@ -40,46 +84,3 @@ An input is not a number: Ignore/skip these as well, instead of attempting to ca
 // 15 seconds
 
 // process.stdout.write('BEEP!');
-
-const timer = function () {
-  // get only the 3rd and onwards array items: 0,1 are not used
-  const args = process.argv.slice(2);
-  // console.log(args);
-
-  for (const item of args) {
-    // console.log(item);
-    setTimeout(() => {
-      // process.stdout.write(item);
-      // process.stdout.write('\x07');
-      console.log(`${item} second timer says: BEEP!`);
-    }, item * 1000);
-    // item * 1000: time in js is an milliseconds, 10 s x 1000ms = 10,000 ms = 10 s
-  };
-
-};
-
-// Call the function
-timer();
-
-// const sentance = "|/-\|/-\|\|/-\|/-\|\|/-\|/-\|\|/-\|/-\|\n";
-// let arr = sentance.split('');
-// for (const item in arr) {
-//   setTimeout(() => {
-//     process.stdout.write('\r' + arr[item]);
-//   }, 200 * item);
-// };
-
-
-// Older code that uses CLI
-/*
-const sum = function() {
-  const args = process.argv.slice(2); // get only the 3rd and 4th indexed array items
-  let total = 0; // total variable starts at 0
-  for (let i = 0; i < args.length; i++) { // loop through all the items in the array
-    total = total + Number(args[i]); // update the total by adding each array item. number converts string array items to numbers
-  }
-  console.log(total); // print the total
-};
-
-sum(); // call the sum function
-*/
